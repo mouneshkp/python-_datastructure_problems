@@ -3,7 +3,6 @@
 # list2 = [1,2,3,5,52,68,98,75,14]
 
 # first =second =third =0
-
 # for i in list2:
 #     if i > first:
 #         third = second
@@ -156,14 +155,63 @@
 #         left+=1
 # print(arr)
 
-arr =[3,4,5,688,7,8,9]
-left =0
-right = len(arr)-1
-while left<right:
-    if arr[left]>arr[right]:
-        arr[left],arr[right] = arr[right],arr[left]
-        right-=1
-    else:
-        left+=1
+# arr =[3,4,5,688,7,8,9]
+# left =0
+# right = len(arr)-1
+# while left<right:
+#     if arr[left]>arr[right]:
+#         arr[left],arr[right] = arr[right],arr[left]
+#         right-=1
+#     else:
+#         left+=1
         
-print(arr)
+# print(arr)
+
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Codec:
+
+    def serialize(self, root):
+
+        result = []
+
+        def dfs(node):
+            if not node:
+                result.append("N")
+                return
+
+            result.append(str(node.val))
+            dfs(node.left)
+            dfs(node.right)
+
+        dfs(root)
+
+        return ",".join(result)
+
+    def deserialize(self, data):
+
+        values = data.split(",")
+        self.index = 0
+
+        def dfs():
+
+            if values[self.index] == "N":
+                self.index += 1
+                return None
+
+            node = TreeNode(int(values[self.index]))
+            self.index += 1
+
+            node.left = dfs()
+            node.right = dfs()
+
+            return node
+
+        return dfs()
